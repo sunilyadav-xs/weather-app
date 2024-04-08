@@ -178,3 +178,18 @@ body{
   height: 15px;
   filter: invert(0.5);
 }
+.scrollButton{
+  position: fixed;  
+   width: 100%; 
+   left: 93%; 
+   bottom: 40px;
+  }
+  .scrollButton button{
+    font-size: 3rem; 
+    width: 60px;
+    height: 60px;
+    z-index: 1; 
+    cursor: pointer; 
+    border-radius: 50%;
+    padding-top: 3px;
+}

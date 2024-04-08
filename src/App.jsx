@@ -5,6 +5,7 @@ import Nav from "./components/Nav";
 import Today from "./components/Today";
 import Hourly from "./components/Hourly";
 import Daily from "./components/Daily";
+import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
   const apiKey = import.meta.env.VITE_API_KEY;
@@ -86,6 +87,7 @@ function App() {
     <Router>
     <>
       <Nav search={search} setSearch={setSearch} />
+      <ScrollToTop />
       <Routes>
       <Route exact path="/" element={<Today data={todayData} conditions={conditions} getWeatherCondition={getWeatherCondition} />}
           />
