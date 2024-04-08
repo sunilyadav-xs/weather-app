@@ -1,22 +1,6 @@
-const Today = ({ data, conditions}) => {
+const Today = ({ data, conditions, getWeatherCondition}) => {
 
-  // console.log(data)
-  
-  let src, phrase;
-
-  if (data.currentConditions?.snow > 0) {
-    src = conditions[0].src;
-    phrase = conditions[0].phrase;
-  } else if (data.currentConditions?.cloudcover < 20) {
-    src = conditions[1].src;
-    phrase = conditions[1].phrase;
-  } else if (data.currentConditions?.cloudcover >= 20 && data.currentConditions?.cloudcover < 80) {
-    src = conditions[3].src;
-    phrase = conditions[3].phrase;
-  } else if (data.currentConditions?.cloudcover >= 80) {
-    src = conditions[2].src;
-    phrase = conditions[2].phrase;
-  }
+  const weatherCondition = getWeatherCondition(data.currentConditions, conditions);
 
   return (
     <div className="container">
@@ -28,7 +12,7 @@ const Today = ({ data, conditions}) => {
         <div className="border"></div>
         <div className="temperature">
         <div className="temp">
-          <img src={src} alt="conditions" />
+          <img src={weatherCondition.src} alt="conditions" />
           <span>{data.currentConditions?.temp}℃</span>
         </div>
         <div className="feelsLike">
@@ -37,7 +21,7 @@ const Today = ({ data, conditions}) => {
         </div>
         </div>
         <div className="phrase">
-          <p>{phrase}</p>
+          <p>{weatherCondition.phrase}</p>
           </div>
           <div className="border"></div>
         <div className="weatherContents">

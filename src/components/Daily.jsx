@@ -1,23 +1,9 @@
-const Daily = ({ data, conditions }) => {
+const Daily = ({ data, conditions,getWeatherCondition }) => {
   const days = data?.days;
   return (
     <div className="containers">
       {days?.map((day, index) => {
-        let src, phrase;
-
-        if (day.snow > 0) {
-          src = conditions[0].src;
-          phrase = conditions[0].phrase;
-        } else if (day.cloudcover < 20) {
-          src = conditions[1].src;
-          phrase = conditions[1].phrase;
-        } else if (day.cloudcover >= 20 && day.cloudcover < 80) {
-          src = conditions[3].src;
-          phrase = conditions[3].phrase;
-        } else if (day.cloudcover >= 80) {
-          src = conditions[2].src;
-          phrase = conditions[2].phrase;
-        }
+       const weatherCondition = getWeatherCondition(day, conditions);
         return (
           <div key={index} className="weatherDataContainer">
             <div className="top">
@@ -25,16 +11,16 @@ const Daily = ({ data, conditions }) => {
                 <span>{day.datetime}</span>
               </div>
               <div className="temp">
-                <img src={src} alt="conditions" />
+                <img src={weatherCondition.src} alt="conditions" />
                 <span>{day.temp}℃</span>
               </div>
               <div className="dew">
-                <img src="" alt="" />
+                <img src="./images/dew.png" alt="" />
                 <span>{day.dew}%</span>
               </div>
             </div>
             <div className="phrase">
-              <span>{phrase}</span>
+              <span>{weatherCondition.phrase}</span>
             </div>
             <div className="border"></div>
             <div className="weatherContents">

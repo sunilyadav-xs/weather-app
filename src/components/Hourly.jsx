@@ -1,24 +1,11 @@
-const Hourly = ({data, conditions}) => {
+const Hourly = ({data, conditions, getWeatherCondition}) => {
   const hours = data.days?.[0]?.hours;
 
   return (
     <div className="containers">
       {hours?.map((hour, index) => {
-       let src, phrase;
-  
-       if (hour.snow > 0) {
-         src = conditions[0].src;
-         phrase = conditions[0].phrase;
-       } else if (hour.cloudcover < 20) {
-         src = conditions[1].src;
-         phrase = conditions[1].phrase;
-       } else if (hour.cloudcover >= 20 && hour.cloudcover < 80) {
-         src = conditions[3].src;
-         phrase = conditions[3].phrase;
-       } else if (hour.cloudcover >= 80) {
-         src = conditions[2].src;
-         phrase = conditions[2].phrase;
-       }
+        
+      const weatherCondition = getWeatherCondition(hour, conditions);
       
       return(
         
@@ -30,7 +17,7 @@ const Hourly = ({data, conditions}) => {
         <div className="border"></div>
         <div className="temperature">
           <div className="temp">
-            <img src={src} alt="conditions" />
+            <img src={weatherCondition.src} alt="conditions" />
             <span>{hour?.temp}℃</span>
           </div>
           <div className="feelsLike">
@@ -39,7 +26,7 @@ const Hourly = ({data, conditions}) => {
           </div>
         </div>
         <div className="phrase">
-          <p>{phrase}</p>
+          <p>{weatherCondition.phrase}</p>
         </div>
         <div className="border"></div>
         <div className="weatherContents">

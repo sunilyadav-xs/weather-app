@@ -13,7 +13,7 @@ function App() {
   const debounceTimeout = useRef();
   let include;
 
-  if (window.location.pathname === "/") {
+  if (window.location.hostname === 'localhost' && window.location.pathname === "/") {
     include = "current";
   } else if (window.location.pathname === "/Hourly") {
     include = "hours";
@@ -38,18 +38,39 @@ function App() {
       phrase: "Partily Cloudy Day",
     },
   ];
+  function getWeatherCondition(filter, conditions) {
+    let src, phrase;
+    if (filter?.snow > 0) {
+        src = conditions[0].src;
+        phrase = conditions[0].phrase;
+    } else if (filter?.cloudcover < 20) {
+        src = conditions[1].src;
+        phrase = conditions[1].phrase;
+    } else if (filter?.cloudcover >= 20 && filter?.cloudcover < 80) {
+        src = conditions[3].src;
+        phrase = conditions[3].phrase;
+    } else if (filter?.cloudcover >= 80) {
+        src = conditions[2].src;
+        phrase = conditions[2].phrase;
+    }
+    return { src, phrase };
+}
   useEffect(() => {
-    if (search) {
+    const fetchData = async () => {
       if (debounceTimeout.current) {
         clearTimeout(debounceTimeout.current);
       }
       debounceTimeout.current = setTimeout(async () => {
-        const weatherData = await fetchWeatherData();
+        const weatherData = await fetchWeatherData(); 
         setTodayData(weatherData);
         console.log(weatherData);
       }, 500);
+    };
+    
+    if (search) {
+      fetchData();
     }
-  }, [search]);
+  }, [search, include]);
 
   const fetchWeatherData = async () => {
     const todayWeatherData = await fetch(
@@ -66,11 +87,11 @@ function App() {
     <>
       <Nav search={search} setSearch={setSearch} />
       <Routes>
-      <Route exact path="/" element={<Today data={todayData} conditions={conditions} />}
+      <Route exact path="/" element={<Today data={todayData} conditions={conditions} getWeatherCondition={getWeatherCondition} />}
           />
 
-      <Route exact path="/Hourly" element={<Hourly data={todayData} conditions={conditions} />}/>
-      <Route exact path="/Daily" element={<Daily data={todayData} conditions={conditions} />}/>
+      <Route exact path="/Hourly" element={<Hourly data={todayData} conditions={conditions} getWeatherCondition={getWeatherCondition} />}/>
+      <Route exact path="/Daily" element={<Daily data={todayData} conditions={conditions} getWeatherCondition={getWeatherCondition} />}/>
       </Routes>
     </>
     </Router>
