@@ -38,7 +38,7 @@ function App() {
     }
   }
 
-  if (window.location.hostname === 'localhost' && window.location.pathname === "/") {
+  if (window.location.pathname === "/") {
     include = "current";
   } else if (window.location.pathname === "/Hourly") {
     include = "hours";
