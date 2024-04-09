@@ -1,10 +1,20 @@
 const Today = ({ data, dayConditions, nightConditions, getWeatherCondition, styles, darkMode}) => {
 
-  const currentTime= parseInt(data?.currentConditions?.datetime.slice(0,2),10);
-  const sun = parseInt(data.days?.[0]?.sunrise.slice(0,2),10);
-  const moon = parseInt(data.days?.[0]?.sunset.slice(0,2),10);
+  const formatHour = (data) => {
+    const timeParts = data?.currentConditions?.datetime.split(':');
+    const hour = parseInt(timeParts?.[0], 10);
+    const minutes = timeParts?.[1];
+    const isPM = hour >= 12;
+    const formattedHour = hour % 12 === 0 ? 12 : hour % 12;
+    const period = isPM ? "PM" : "AM";
+    return { hour, originalTime: `${formattedHour}:${minutes}${period}` };
+  };
+  const sun = parseInt(data.days?.[0]?.sunrise.slice(0,5),10);
+  const moon = parseInt(data.days?.[0]?.sunset.slice(0,5),10)
+
+  const formattedTime = formatHour(data);
   let weatherCondition;
-  currentTime > sun && currentTime < moon ? (weatherCondition = getWeatherCondition(data.currentConditions, dayConditions)):(weatherCondition = getWeatherCondition(data.currentConditions, nightConditions));
+  formattedTime.hour > sun && formattedTime.hour < moon ? (weatherCondition = getWeatherCondition(data.currentConditions, dayConditions)):(weatherCondition = getWeatherCondition(data.currentConditions, nightConditions));
   
 
   return (
@@ -12,7 +22,7 @@ const Today = ({ data, dayConditions, nightConditions, getWeatherCondition, styl
       <div className="weatherDataContainer" style={darkMode ? styles.darkweather : {}}>
         <div className="heading">
           <span>Today's Weather</span>
-          <span>{data.currentConditions?.datetime}</span>
+          <span>{formattedTime.originalTime}</span>
         </div>
         <div className="border"></div>
         <div className="temperature">
