@@ -28,11 +28,11 @@ const Today = ({ data, dayConditions, nightConditions, getWeatherCondition, styl
         <div className="temperature">
         <div className="temp">
           <img src={weatherCondition.src} alt="conditions" />
-          <span>{data.currentConditions?.temp}℃</span>
+          <span>{data?.currentConditions?.temp}℃</span>
         </div>
         <div className="feelsLike">
           <span>Feels Like</span>
-          <span>{data.currentConditions?.feelslike}℃</span>
+          <span>{data?.currentConditions?.feelslike}℃</span>
         </div>
         </div>
         <div className="phrase">
@@ -42,56 +42,56 @@ const Today = ({ data, dayConditions, nightConditions, getWeatherCondition, styl
         <div className="weatherContents">
           <div className="weatherContent">
             <span>UV Index</span>
-            <span>{data.currentConditions?.uvindex}</span>
+            <span>{data?.currentConditions?.uvindex}</span>
           </div>
           <div className="weatherContent">
             <span>Dew Point</span>
-            <span>{data.currentConditions?.dew}℃</span>
+            <span>{data?.currentConditions?.dew}℃</span>
           </div>
         </div>
         <div className="border"></div>
         <div className="weatherContents">
           <div className="weatherContent">
             <span>Wind</span>
-            <span>{data.currentConditions?.windspeed}km/h</span>
+            <span>{data?.currentConditions?.windspeed}km/h</span>
           </div>
           <div className="weatherContent">
             <span>Pressure</span>
-            <span>↑{data.currentConditions?.pressure}mb</span>
+            <span>↑{data?.currentConditions?.pressure}mb</span>
           </div>
         </div>
         <div className="border"></div>
         <div className="weatherContents">
           <div className="weatherContent">
             <span>Wind Gusts</span>
-            <span>{data.currentConditions?.windgust || "0"}km/h</span>
+            <span>{data?.currentConditions?.windgust || "0"}km/h</span>
           </div>
           <div className="weatherContent">
             <span>Cloud Cover</span>
-            <span>{data.currentConditions?.cloudcover}%</span>
+            <span>{data?.currentConditions?.cloudcover}%</span>
           </div>
         </div>
         <div className="border"></div>
         <div className="weatherContents">
           <div className="weatherContent">
             <span>Humidity</span>
-            <span>{data.currentConditions?.humidity}%</span>
+            <span>{data?.currentConditions?.humidity}%</span>
           </div>
           <div className="weatherContent">
             <span>Visibility</span>
-            <span>{data.currentConditions?.visibility}km</span>
+            <span>{data?.currentConditions?.visibility}km</span>
           </div>
         </div>
         <div className="border"></div>
         <div className="weatherContents">
           <div className="weatherContent">
             <span>Percipitation</span>
-            <span>{data.currentConditions?.precip || "0"}mm</span>
+            <span>{data?.currentConditions?.precip || "0"}mm</span>
           </div>
           <div className="weatherContent">
             <span>Solar Radiation</span>
             <span>
-              {data.currentConditions?.solarradiation}kWh/m<sup>2</sup>
+              {data?.currentConditions?.solarradiation}kWh/m<sup>2</sup>
             </span>
           </div>
         </div>

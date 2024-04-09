@@ -131,7 +131,7 @@ function App() {
       <Nav search={search} setSearch={setSearch} darkMode={darkMode} setDarkMode={setDarkMode} styles={styles} />
       <ScrollToTop darkMode={darkMode} styles={styles}/>
       <Routes>
-      <Route exact path="/" element={<Today data={todayData} dayConditions={dayConditions} nightConditions={nightConditions} getWeatherCondition={getWeatherCondition} styles={styles} darkMode={darkMode}/>}
+      <Route path="/" element={<Today data={todayData} dayConditions={dayConditions} nightConditions={nightConditions} getWeatherCondition={getWeatherCondition} styles={styles} darkMode={darkMode}/>}
           />
 
       <Route exact path="/Hourly" element={<Hourly data={todayData} dayConditions={dayConditions} nightConditions={nightConditions} getWeatherCondition={getWeatherCondition} styles={styles} darkMode={darkMode}/>}/>
