@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaArrowUp } from "react-icons/fa6";
 
-const ScrollToTop = () => {
+const ScrollToTop = ({darkMode, styles}) => {
   const [visible, setVisible] = useState(false);
 
   const toggleVisible = () => {
@@ -25,10 +25,11 @@ const ScrollToTop = () => {
   return (
     <div className="scrollButton">
     <button
-    style={{ display: visible ? "inline" : "none" }}
+    style={{ display: visible ? "inline" : "none", backgroundColor: darkMode ? '#555353': '', border: 'none' }}
     >
       <FaArrowUp
         onClick={scrollToTop}
+        style={darkMode ? styles.lightImg : {}}
         />
     </button>
     </div>

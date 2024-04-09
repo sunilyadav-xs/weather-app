@@ -1,10 +1,15 @@
-const Today = ({ data, conditions, getWeatherCondition}) => {
+const Today = ({ data, dayConditions, nightConditions, getWeatherCondition, styles, darkMode}) => {
 
-  const weatherCondition = getWeatherCondition(data.currentConditions, conditions);
+  const currentTime= parseInt(data?.currentConditions?.datetime.slice(0,2),10);
+  const sun = parseInt(data.days?.[0]?.sunrise.slice(0,2),10);
+  const moon = parseInt(data.days?.[0]?.sunset.slice(0,2),10);
+  let weatherCondition;
+  currentTime > sun && currentTime < moon ? (weatherCondition = getWeatherCondition(data.currentConditions, dayConditions)):(weatherCondition = getWeatherCondition(data.currentConditions, nightConditions));
+  
 
   return (
-    <div className="container">
-      <div className="weatherDataContainer">
+    <div className="container" >
+      <div className="weatherDataContainer" style={darkMode ? styles.darkweather : {}}>
         <div className="heading">
           <span>Today's Weather</span>
           <span>{data.currentConditions?.datetime}</span>

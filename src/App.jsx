@@ -10,9 +10,33 @@ import ScrollToTop from "./components/ScrollToTop";
 function App() {
   const apiKey = import.meta.env.VITE_API_KEY;
   const [todayData, setTodayData] = useState({});
-  const [search, setSearch] = useState("jaipur");
+  const [search, setSearch] = useState("");
+  const [darkMode, setDarkMode] = useState(false);
   const debounceTimeout = useRef();
   let include;
+
+  const styles = {
+    darkMain:{
+      backgroundColor : '#272626',
+      color : 'white'
+    },
+    darkweather:{
+      backgroundColor: '#555353'
+    },
+    darkNav:{
+      backgroundColor: '#555353'
+    },
+    lightImg:{
+      filter: 'invert(1)'
+    },
+    lightLogo:{
+      filter: 'invert(0)'
+    },
+    darkcontent:{
+      backgroundColor : '#555353',
+      color : 'white'
+    }
+  }
 
   if (window.location.hostname === 'localhost' && window.location.pathname === "/") {
     include = "current";
@@ -21,22 +45,40 @@ function App() {
   } else if (window.location.pathname === "/Daily") {
     include = "days";
   }
-  const conditions = [
+  const dayConditions = [
     {
-      src: "./images/snow.png",
+      src: "./images/snowy-day.svg",
       phrase: "Snowy Day",
     },
     {
-      src: "./images/clear.png",
+      src: "./images/clear.svg",
       phrase: "Clear Day",
     },
     {
-      src: "./images/cloudy.png",
+      src: "./images/cloudy.svg",
       phrase: "Cloudy Day",
     },
     {
-      src: "./images/partily-cloudy.png",
+      src: "./images/cloudy-day.svg",
       phrase: "Partily Cloudy Day",
+    },
+  ];
+  const nightConditions = [
+    {
+      src: "./images/snowy-night.svg",
+      phrase: "Snowy Night",
+    },
+    {
+      src: "./images/night.svg",
+      phrase: "Clear Night",
+    },
+    {
+      src: "./images/cloudy.svg",
+      phrase: "Cloudy Night",
+    },
+    {
+      src: "./images/cloudy-night.svg",
+      phrase: "Partily Cloudy Night",
     },
   ];
   function getWeatherCondition(filter, conditions) {
@@ -68,15 +110,15 @@ function App() {
       }, 500);
     };
     
-    if (search) {
+    // if (search) {
       fetchData();
-    }
+    // }
   }, [search, include]);
 
   const fetchWeatherData = async () => {
     const todayWeatherData = await fetch(
       `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${
-        search
+        search || 'jaipur'
       }?unitGroup=metric&include=${include}&key=${apiKey}&contentType=json`
     );
     const response = await todayWeatherData.json();
@@ -85,17 +127,17 @@ function App() {
 
   return (
     <Router>
-    <>
-      <Nav search={search} setSearch={setSearch} />
-      <ScrollToTop />
+    <div className="main" style={darkMode ? styles.darkMain : {}}>
+      <Nav search={search} setSearch={setSearch} darkMode={darkMode} setDarkMode={setDarkMode} styles={styles} />
+      <ScrollToTop darkMode={darkMode} styles={styles}/>
       <Routes>
-      <Route exact path="/" element={<Today data={todayData} conditions={conditions} getWeatherCondition={getWeatherCondition} />}
+      <Route exact path="/" element={<Today data={todayData} dayConditions={dayConditions} nightConditions={nightConditions} getWeatherCondition={getWeatherCondition} styles={styles} darkMode={darkMode}/>}
           />
 
-      <Route exact path="/Hourly" element={<Hourly data={todayData} conditions={conditions} getWeatherCondition={getWeatherCondition} />}/>
-      <Route exact path="/Daily" element={<Daily data={todayData} conditions={conditions} getWeatherCondition={getWeatherCondition} />}/>
+      <Route exact path="/Hourly" element={<Hourly data={todayData} dayConditions={dayConditions} nightConditions={nightConditions} getWeatherCondition={getWeatherCondition} styles={styles} darkMode={darkMode}/>}/>
+      <Route exact path="/Daily" element={<Daily data={todayData} dayConditions={dayConditions} getWeatherCondition={getWeatherCondition} styles={styles} darkMode={darkMode}/>}/>
       </Routes>
-    </>
+    </div>
     </Router>
   );
 }
