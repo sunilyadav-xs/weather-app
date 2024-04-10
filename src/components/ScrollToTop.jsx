@@ -29,8 +29,7 @@ const ScrollToTop = ({darkMode, styles}) => {
     >
       <FaArrowUp
         onClick={scrollToTop}
-        style={darkMode ? styles.lightImg : {}}
-        />
+        style={darkMode ? styles.lightImg : {}}/>
     </button>
     </div>
   );
