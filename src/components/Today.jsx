@@ -25,7 +25,7 @@ const Today = ({ data, dayConditions, nightConditions, getWeatherCondition, styl
           <span>{formattedTime.originalTime}</span>
         </div>
         <div className="location">
-          <span>{address[0]}</span>
+          <span>{address?.[0]}</span>
         </div>
         <div className="border"></div>
         <div className="temperature">

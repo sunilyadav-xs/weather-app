@@ -28,7 +28,7 @@ const Daily = ({
                 <span>{date}</span>
               </div>
               <div className="location">
-                <span>{address[0]}</span>
+                <span>{address?.[0]}</span>
               </div>
               <div className="temp">
                 <img src={weatherCondition.src} alt="conditions" />
