@@ -14,29 +14,30 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const debounceTimeout = useRef();
   let include;
+  const address = todayData?.resolvedAddress?.split(',');
 
   const styles = {
-    darkMain:{
-      backgroundColor : '#272626',
-      color : 'white'
+    darkMain: {
+      backgroundColor: "#272626",
+      color: "white",
     },
-    darkweather:{
-      backgroundColor: '#555353'
+    darkweather: {
+      backgroundColor: "#555353",
     },
-    darkNav:{
-      backgroundColor: '#555353'
+    darkNav: {
+      backgroundColor: "#555353",
     },
-    lightImg:{
-      filter: 'invert(1)'
+    lightImg: {
+      filter: "invert(1)",
     },
-    lightLogo:{
-      filter: 'invert(0)'
+    lightLogo: {
+      filter: "invert(0)",
     },
-    darkcontent:{
-      backgroundColor : '#555353',
-      color : 'white'
-    }
-  }
+    darkcontent: {
+      backgroundColor: "#555353",
+      color: "white",
+    },
+  };
 
   if (window.location.pathname === "/") {
     include = "current";
@@ -84,41 +85,38 @@ function App() {
   function getWeatherCondition(filter, conditions) {
     let src, phrase;
     if (filter?.snow > 0) {
-        src = conditions[0].src;
-        phrase = conditions[0].phrase;
+      src = conditions[0].src;
+      phrase = conditions[0].phrase;
     } else if (filter?.cloudcover < 20) {
-        src = conditions[1].src;
-        phrase = conditions[1].phrase;
+      src = conditions[1].src;
+      phrase = conditions[1].phrase;
     } else if (filter?.cloudcover >= 20 && filter?.cloudcover < 80) {
-        src = conditions[3].src;
-        phrase = conditions[3].phrase;
+      src = conditions[3].src;
+      phrase = conditions[3].phrase;
     } else if (filter?.cloudcover >= 80) {
-        src = conditions[2].src;
-        phrase = conditions[2].phrase;
+      src = conditions[2].src;
+      phrase = conditions[2].phrase;
     }
     return { src, phrase };
-}
+  }
   useEffect(() => {
     const fetchData = async () => {
       if (debounceTimeout.current) {
         clearTimeout(debounceTimeout.current);
       }
       debounceTimeout.current = setTimeout(async () => {
-        const weatherData = await fetchWeatherData(); 
+        const weatherData = await fetchWeatherData();
         setTodayData(weatherData);
         console.log(weatherData);
       }, 500);
     };
-    
-    // if (search) {
-      fetchData();
-    // }
+    fetchData();
   }, [search, include]);
 
   const fetchWeatherData = async () => {
     const todayWeatherData = await fetch(
       `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${
-        search || 'jaipur'
+        search || "jaipur"
       }?unitGroup=metric&include=${include}&key=${apiKey}&contentType=json`
     );
     const response = await todayWeatherData.json();
@@ -127,17 +125,62 @@ function App() {
 
   return (
     <Router>
-    <div className="main" style={darkMode ? styles.darkMain : {}}>
-      <Nav search={search} setSearch={setSearch} darkMode={darkMode} setDarkMode={setDarkMode} styles={styles} />
-      <ScrollToTop darkMode={darkMode} styles={styles}/>
-      <Routes>
-      <Route path="/" element={<Today data={todayData} dayConditions={dayConditions} nightConditions={nightConditions} getWeatherCondition={getWeatherCondition} styles={styles} darkMode={darkMode}/>}
+      <div className="main" style={darkMode ? styles.darkMain : {}}>
+        <Nav
+          search={search}
+          setSearch={setSearch}
+          darkMode={darkMode}
+          setDarkMode={setDarkMode}
+          styles={styles}
+        />
+        <ScrollToTop darkMode={darkMode} styles={styles} />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Today
+                data={todayData}
+                dayConditions={dayConditions}
+                nightConditions={nightConditions}
+                getWeatherCondition={getWeatherCondition}
+                styles={styles}
+                darkMode={darkMode}
+                address={address}
+              />
+            }
           />
 
-      <Route exact path="/Hourly" element={<Hourly data={todayData} dayConditions={dayConditions} nightConditions={nightConditions} getWeatherCondition={getWeatherCondition} styles={styles} darkMode={darkMode}/>}/>
-      <Route exact path="/Daily" element={<Daily data={todayData} dayConditions={dayConditions} getWeatherCondition={getWeatherCondition} styles={styles} darkMode={darkMode}/>}/>
-      </Routes>
-    </div>
+          <Route
+            exact
+            path="/Hourly"
+            element={
+              <Hourly
+                data={todayData}
+                dayConditions={dayConditions}
+                nightConditions={nightConditions}
+                getWeatherCondition={getWeatherCondition}
+                styles={styles}
+                darkMode={darkMode}
+                address={address}
+              />
+            }
+          />
+          <Route
+            exact
+            path="/Daily"
+            element={
+              <Daily
+                data={todayData}
+                dayConditions={dayConditions}
+                getWeatherCondition={getWeatherCondition}
+                styles={styles}
+                darkMode={darkMode}
+                address={address}
+              />
+            }
+          />
+        </Routes>
+      </div>
     </Router>
   );
 }

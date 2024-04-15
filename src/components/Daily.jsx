@@ -1,20 +1,34 @@
-const Daily = ({ data, dayConditions,getWeatherCondition, styles, darkMode}) => {
+const Daily = ({
+  data,
+  dayConditions,
+  getWeatherCondition,
+  styles,
+  darkMode,
+  address,
+}) => {
   const days = data?.days;
-  const getDate = (day)=>{
-    const correctDate = day.datetime.split('-').reverse().join("-");
-    return correctDate
-  }
-  
+  const getDate = (day) => {
+    const correctDate = day.datetime.split("-").reverse().join("-");
+    return correctDate;
+  };
+
   return (
-    <div className="containers" >
+    <div className="containers">
       {days?.map((day, index) => {
-       const weatherCondition = getWeatherCondition(day, dayConditions);
-       const date = getDate(day);
+        const weatherCondition = getWeatherCondition(day, dayConditions);
+        const date = getDate(day);
         return (
-          <div key={index} className="weatherDataContainer" style={darkMode ? styles.darkweather : {}}>
+          <div
+            key={index}
+            className="weatherDataContainer"
+            style={darkMode ? styles.darkweather : {}}
+          >
             <div className="top">
               <div className="date">
                 <span>{date}</span>
+              </div>
+              <div className="location">
+                <span>{address[0]}</span>
               </div>
               <div className="temp">
                 <img src={weatherCondition.src} alt="conditions" />

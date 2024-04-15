@@ -4,7 +4,8 @@ const Hourly = ({
   nightConditions,
   getWeatherCondition,
   styles,
-  darkMode
+  darkMode,
+  address,
 }) => {
   const hours = data.days?.[0]?.hours;
   const formatHour = (hour) => {
@@ -12,27 +13,34 @@ const Hourly = ({
     const isPM = hourlyTime >= 12;
     const formattedHour = hourlyTime % 12 === 0 ? 12 : hourlyTime % 12;
     const period = isPM ? "PM" : "AM";
-    return {formattedHour, period, hourlyTime}
+    return { formattedHour, period, hourlyTime };
   };
-  const sun = parseInt(data.days?.[0]?.sunrise.slice(0,2),10);
-  const moon = parseInt(data.days?.[0]?.sunset.slice(0,2),10);
+  const sun = parseInt(data.days?.[0]?.sunrise.slice(0, 2), 10);
+  const moon = parseInt(data.days?.[0]?.sunset.slice(0, 2), 10);
   return (
-    <div className="containers" >
+    <div className="containers">
       {hours?.map((hour, index) => {
-
         const formattedTime = formatHour(hour);
         let weatherCondition;
         if (formattedTime.hourlyTime > sun && formattedTime.hourlyTime < moon) {
           weatherCondition = getWeatherCondition(hour, dayConditions);
-        }
-        else{
+        } else {
           weatherCondition = getWeatherCondition(hour, nightConditions);
         }
         return (
-          <div key={index} className="weatherDataContainer" style={darkMode ? styles.darkweather : {}}>
+          <div
+            key={index}
+            className="weatherDataContainer"
+            style={darkMode ? styles.darkweather : {}}
+          >
             <div className="heading">
               <span>Hourly Weather</span>
-              <span>{formattedTime.formattedHour} {formattedTime.period}</span>
+              <span>
+                {formattedTime.formattedHour} {formattedTime.period}
+              </span>
+            </div>
+            <div className="location">
+              <span>{address[0]}</span>
             </div>
             <div className="border"></div>
             <div className="temperature">

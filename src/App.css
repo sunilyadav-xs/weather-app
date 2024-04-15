@@ -230,8 +230,8 @@ body {
     padding: 0 1vw;
   }
   .logo img {
-    width: 20vw;
-    height: 15vw;
+    width: 25vw;
+    height: 20vw;
   }
   .search {
     width: 40vw;
@@ -259,6 +259,9 @@ body {
     align-items: center;
     gap: 0.2em;
   }
+  .heading:nth-child(1){
+    width: 50%;
+  }
   .temperature {
     flex-direction: column;
     align-items: center;
@@ -276,6 +279,10 @@ body {
   .scrollButton {
     left: 85%;
     bottom: 20px;
+  }
+  .dropdown-content{
+    top: 45px;
+    right: 15px;
   }
 }
 @media only screen and (min-width: 601px) and (max-width: 800px) {

@@ -1,4 +1,4 @@
-const Today = ({ data, dayConditions, nightConditions, getWeatherCondition, styles, darkMode}) => {
+const Today = ({ data, dayConditions, nightConditions, getWeatherCondition, styles, darkMode, address}) => {
 
   const formatHour = (data) => {
     const timeParts = data?.currentConditions?.datetime.split(':');
@@ -23,6 +23,9 @@ const Today = ({ data, dayConditions, nightConditions, getWeatherCondition, styl
         <div className="heading">
           <span>Today's Weather</span>
           <span>{formattedTime.originalTime}</span>
+        </div>
+        <div className="location">
+          <span>{address[0]}</span>
         </div>
         <div className="border"></div>
         <div className="temperature">
